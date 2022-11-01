@@ -1,4 +1,4 @@
-package org.exemple.data;
+package ai.cresta.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

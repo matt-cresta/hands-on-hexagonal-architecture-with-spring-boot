@@ -1,7 +1,7 @@
-package org.example.controller;
+package ai.cresta.controller;
 
-import org.exemple.data.BookDto;
-import org.exemple.ports.api.BookServicePort;
+import ai.cresta.data.BookDto;
+import ai.cresta.ports.api.BookServicePort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

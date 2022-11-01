@@ -1,10 +1,10 @@
-package org.exemple.ports.api;
+package ai.cresta.ports.spi;
 
-import org.exemple.data.BookDto;
+import ai.cresta.data.BookDto;
 
 import java.util.List;
 
-public interface BookServicePort {
+public interface BookPersistencePort {
 
     BookDto addBook(BookDto bookDto);
 
@@ -15,4 +15,5 @@ public interface BookServicePort {
     List<BookDto> getBooks();
 
     BookDto getBookById(Long bookId);
+
 }

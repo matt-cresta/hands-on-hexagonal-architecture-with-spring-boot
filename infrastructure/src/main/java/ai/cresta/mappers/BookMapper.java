@@ -1,7 +1,7 @@
-package org.example.mappers;
+package ai.cresta.mappers;
 
-import org.example.entity.Book;
-import org.exemple.data.BookDto;
+import ai.cresta.entity.Book;
+import ai.cresta.data.BookDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 

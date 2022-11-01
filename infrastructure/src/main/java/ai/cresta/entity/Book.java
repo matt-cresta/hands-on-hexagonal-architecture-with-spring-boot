@@ -1,4 +1,4 @@
-package org.example.entity;
+package ai.cresta.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

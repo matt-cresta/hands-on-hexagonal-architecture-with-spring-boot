@@ -1,10 +1,10 @@
-package org.example.adapters;
+package ai.cresta.adapters;
 
-import org.example.entity.Book;
-import org.example.mappers.BookMapper;
-import org.example.repository.BookRepository;
-import org.exemple.data.BookDto;
-import org.exemple.ports.spi.BookPersistencePort;
+import ai.cresta.entity.Book;
+import ai.cresta.mappers.BookMapper;
+import ai.cresta.repository.BookRepository;
+import ai.cresta.data.BookDto;
+import ai.cresta.ports.spi.BookPersistencePort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

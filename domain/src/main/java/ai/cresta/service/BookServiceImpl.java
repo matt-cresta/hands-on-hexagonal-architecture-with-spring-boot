@@ -1,8 +1,8 @@
-package org.exemple.service;
+package ai.cresta.service;
 
-import org.exemple.data.BookDto;
-import org.exemple.ports.api.BookServicePort;
-import org.exemple.ports.spi.BookPersistencePort;
+import ai.cresta.data.BookDto;
+import ai.cresta.ports.api.BookServicePort;
+import ai.cresta.ports.spi.BookPersistencePort;
 
 import java.util.List;
 
