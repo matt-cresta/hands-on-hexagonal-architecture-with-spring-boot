@@ -1,6 +1,7 @@
 package ai.cresta.controller;
 
 
+import ai.cresta.data.ConversationSubscriptionRequestDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,12 @@ public class GenesysChatController {
     @PostMapping("/webChat/addUser")
     public ResponseEntity<String> addUser(@RequestBody final UserDto userDto){
         userServicePort.addUser(userDto);
+        return ResponseEntity.ok("");
+    }
+
+    @PostMapping("/webChat/connectToConversation")
+    public ResponseEntity<String> subscribeToConversation(@RequestBody final ConversationSubscriptionRequestDto conversationSubscriptionRequestDto){
+        messageServicePort.subscribeToConversation(conversationSubscriptionRequestDto);
         return ResponseEntity.ok("");
     }
 
