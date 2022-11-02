@@ -14,4 +14,5 @@ public interface UserPersistencePort {
     List<UserDto> getUsers();
 
     UserDto getUserById(Long id);
+
 }
