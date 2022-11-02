@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import ai.cresta.data.UserDto;
 import ai.cresta.ports.api.MessageServicePort;
+import ai.cresta.ports.api.UserServicePort;
 
 
 @RestController
@@ -15,6 +16,9 @@ public class GenesysChatController {
     
     @Autowired
     private MessageServicePort messageServicePort;
+
+    @Autowired
+    private UserServicePort userServicePort;
 
     @PostMapping("/send-chat")
     public void sendChat(@RequestBody final String message){
@@ -27,10 +31,10 @@ public class GenesysChatController {
         messageServicePort.notifyUser(id, "message");
     }
 
-    @PostMapping("/webChat/accessToken")
-    public ResponseEntity storeAccessToken(@RequestBody final UserDto userDto ){
-        messageServicePort.setAccessToken(userDto.getUserId(), userDto.getAccessToken());
-        return ResponseEntity.ok().build();
+    @PostMapping("/webChat/addUser")
+    public ResponseEntity<String> addUser(@RequestBody final UserDto userDto){
+        userServicePort.addUser(userDto);
+        return ResponseEntity.ok("");
     }
 
 }

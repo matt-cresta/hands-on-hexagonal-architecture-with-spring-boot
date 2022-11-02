@@ -1,6 +1,8 @@
 package ai.cresta.service;
 
 import ai.cresta.ports.api.MessageServicePort;
+import ai.cresta.ports.spi.UserPersistencePort;
+import lombok.AllArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -9,14 +11,11 @@ import com.mypurecloud.sdk.v2.ApiClient;
 import com.mypurecloud.sdk.v2.Configuration;
 import com.mypurecloud.sdk.v2.PureCloudRegionHosts;
 
+@AllArgsConstructor
 public class GenesysWebChatServiceImpl implements MessageServicePort {
 
     private final SimpMessagingTemplate messageTemplate;
-
-    @Autowired
-    public GenesysWebChatServiceImpl(SimpMessagingTemplate messagingTemplate){
-        this.messageTemplate = messagingTemplate;
-    }
+    private final UserPersistencePort userPersistencePort;
 
     @Override
     public void notifyFrontend(String message) {
