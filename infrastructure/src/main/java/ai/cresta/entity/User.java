@@ -26,5 +26,7 @@ public class User {
     private String platformName;
     
     private String accessToken;
+
+    private String channelId;
     
 }

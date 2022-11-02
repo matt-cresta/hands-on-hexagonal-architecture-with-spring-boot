@@ -66,7 +66,7 @@ public class GenesysAdapter implements GenesysPort {
         return channel;
     }
 
-    private void configureAPI(String userId){
+    private User configureAPI(String userId){
         List<User> users =  userRepository.findByUserId(userId);
 
         User user = users.stream()
@@ -75,22 +75,32 @@ public class GenesysAdapter implements GenesysPort {
                 .orElse(null);
 
         if(user == null)
-            return;
+            return null;
 
         ApiClient apiClient = ApiClient.Builder.standard().withBasePath(region).build();
         apiClient.setAccessToken(user.getAccessToken());
 
         Configuration.setDefaultApiClient(apiClient);
+
+        return user;
     }
 
     @Override
     public void subscribeToConversation(String userId, String conversationId) {
-        configureAPI(userId);
+        User user = configureAPI(userId);
         NotificationsApi notificationsApi = new NotificationsApi();
+        String channelId;
 
-        Channel channel = createNotificationChannelForUser(notificationsApi);
-        String channelId = channel.getId();
-
+        if(user != null && user.getChannelId() != null){
+            channelId = user.getChannelId();
+        }
+        else{
+            Channel channel = createNotificationChannelForUser(notificationsApi);
+            channelId = channel.getId();
+            user.setChannelId(channelId);
+            userRepository.save(user);
+        }
+        
         ChannelTopic channelTopic = new ChannelTopic().id(channelId);
         List<ChannelTopic> body = Collections.singletonList(channelTopic);
 
