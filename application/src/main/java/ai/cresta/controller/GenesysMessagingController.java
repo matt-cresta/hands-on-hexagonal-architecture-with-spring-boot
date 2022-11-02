@@ -6,6 +6,7 @@ import ai.cresta.data.UserDto;
 import ai.cresta.ports.api.MessageServicePort;
 import ai.cresta.ports.api.UserServicePort;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/genesys")
 public class GenesysMessagingController {
     @Autowired
+    @Qualifier("webMessaging")
     private MessageServicePort messageServicePort;
 
     @Autowired
