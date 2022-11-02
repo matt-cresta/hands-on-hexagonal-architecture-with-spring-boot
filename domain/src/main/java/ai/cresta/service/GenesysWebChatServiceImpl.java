@@ -1,6 +1,8 @@
 package ai.cresta.service;
 
+import ai.cresta.data.ConversationSubscriptionRequestDto;
 import ai.cresta.ports.api.MessageServicePort;
+import ai.cresta.ports.spi.GenesysPort;
 import ai.cresta.ports.spi.UserPersistencePort;
 import lombok.AllArgsConstructor;
 
@@ -15,7 +17,7 @@ import com.mypurecloud.sdk.v2.PureCloudRegionHosts;
 public class GenesysWebChatServiceImpl implements MessageServicePort {
 
     private final SimpMessagingTemplate messageTemplate;
-    private final UserPersistencePort userPersistencePort;
+    private final GenesysPort genesysPort;
 
     @Override
     public void notifyFrontend(String message) {
@@ -27,13 +29,11 @@ public class GenesysWebChatServiceImpl implements MessageServicePort {
     public void notifyUser(String id, String message) {
         messageTemplate.convertAndSendToUser(id ,"/topic/private-messages", message);
     }
-
-    
     @Override
-    public void setAccessToken(String userId, String accessToken) {
-        PureCloudRegionHosts region = PureCloudRegionHosts.us_west_2;
-        ApiClient apiClient = ApiClient.Builder.standard().withBasePath(region).build();
-        apiClient.setAccessToken(accessToken);
-        Configuration.setDefaultApiClient(apiClient);
+    public void subscribeToConversation(ConversationSubscriptionRequestDto conversationSubscriptionRequestDto){
+        String userId = conversationSubscriptionRequestDto.getUserId();
+        String conversationId = conversationSubscriptionRequestDto.getConversationId();
+
+        genesysPort.subscribeToConversation(userId, conversationId);
     }
 }
