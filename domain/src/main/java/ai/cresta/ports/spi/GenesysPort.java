@@ -1,10 +1,8 @@
 package ai.cresta.ports.spi;
 
-import com.mypurecloud.sdk.v2.model.Channel;
+import ai.cresta.data.ConversationSubscriptionRequestDto;
 
 public interface GenesysPort {
 
-    void createNotificationChannel();
-
-    public void subscribeToConversation(String conversationId, Channel channel) ;
+    public void subscribeToConversation(String userId, String conversationId);
 }
