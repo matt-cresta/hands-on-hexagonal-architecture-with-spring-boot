@@ -14,11 +14,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
 public class UserJpaAdapter implements UserPersistencePort {
 
     @Autowired 
-    private final UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     public UserDto addUser(UserDto UserDto) {
