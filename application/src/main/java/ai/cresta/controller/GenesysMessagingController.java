@@ -26,7 +26,7 @@ public class GenesysMessagingController {
         return ResponseEntity.ok("");
     }
 
-    @PostMapping("/webChat/connectToConversation")
+    @PostMapping("/webMessage/connectToConversation")
     public ResponseEntity<ConversationSubscriptionResponseDto> subscribeToConversation(@RequestBody final ConversationSubscriptionRequestDto conversationSubscriptionRequestDto){
         ConversationSubscriptionResponseDto conversationSubscriptionResponseDto
                 = messageServicePort.subscribeToConversation(conversationSubscriptionRequestDto);
