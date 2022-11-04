@@ -21,7 +21,6 @@ public class GenesysEventDto {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    @Builder
     public class MetaData{
         private String correlationId; 
         private String type;

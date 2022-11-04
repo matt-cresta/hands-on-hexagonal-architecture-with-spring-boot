@@ -16,18 +16,7 @@ public class GenesysWebMessagingServiceImpl implements MessageServicePort {
 
     private final SimpMessagingTemplate messageTemplate;
     private final GenesysPort genesysPort;
-
-    @Override
-    public void notifyFrontend(String message) {
-        messageTemplate.convertAndSend("/topic/messages", message);
-
-    }
-
-    @Override
-    public void notifyUser(String id, String message) {
-        messageTemplate.convertAndSendToUser(id ,"/topic/private-messages", message);
-    }
-
+    
     @Override
     public ConversationSubscriptionResponseDto subscribeToConversation(ConversationSubscriptionRequestDto conversationSubscriptionRequestDto){
         String userId = conversationSubscriptionRequestDto.getUserId();

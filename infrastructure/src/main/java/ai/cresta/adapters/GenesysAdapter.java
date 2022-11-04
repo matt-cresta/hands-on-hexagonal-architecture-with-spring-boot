@@ -96,10 +96,6 @@ public class GenesysAdapter implements GenesysPort {
         return user;
     }
 
-    private void onMessage(GenesysEventDto data){
-
-    }
-
     private Channel createNotificationChannelForUser(NotificationsApi notificationsApi) {
         //Set up the web-socket
         WebSocketClient client = new StandardWebSocketClient();
@@ -107,7 +103,7 @@ public class GenesysAdapter implements GenesysPort {
 
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 
-        StompSessionHandler sessionHandler = new genesysSessionHandlerAdapter(messagingTemplate, userRepository);
+        StompSessionHandler sessionHandler = new genesysSessionHandlerAdapter();
 
         Channel channel = null;
 

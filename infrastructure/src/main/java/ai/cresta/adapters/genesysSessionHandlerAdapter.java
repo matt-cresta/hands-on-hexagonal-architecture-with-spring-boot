@@ -11,6 +11,7 @@ import ai.cresta.entity.User;
 import ai.cresta.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaders;
@@ -18,13 +19,16 @@ import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.messaging.simp.stomp.StompSessionHandler;
 
 import lombok.Data;
+import org.springframework.stereotype.Service;
 
-@AllArgsConstructor
+@Service
 public class genesysSessionHandlerAdapter implements StompSessionHandler {
 
-    private final SimpMessagingTemplate messageTemplate;
+    @Autowired
+    private SimpMessagingTemplate messageTemplate;
 
-    private final UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public Type getPayloadType(StompHeaders arg0) {
