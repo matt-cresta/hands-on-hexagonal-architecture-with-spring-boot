@@ -49,4 +49,9 @@ public class GenesysChatController {
         return ResponseEntity.ok(conversationSubscriptionResponseDto);
     }
 
+    @GetMapping("/webChat/health")
+    public ResponseEntity<String> health(){
+        return ResponseEntity.ok("GenesysChatController Works");
+    }
+
 }

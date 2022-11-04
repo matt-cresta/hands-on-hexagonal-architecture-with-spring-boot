@@ -112,7 +112,6 @@ public class GenesysAdapter implements GenesysPort {
             String connectUri = channel.getConnectUri();
 
             stompClient.connect(connectUri, sessionHandler);
-            new Scanner(System.in).nextLine(); // Don't close immediately.
 
         }
         catch(ApiException e){
@@ -128,7 +127,6 @@ public class GenesysAdapter implements GenesysPort {
     private ConversationSubscriptionResponseDto getParticpantInfo(ConversationsApi conversationsApi, String conversationId){
         try{
             Conversation conversation = conversationsApi.getConversation(conversationId);
-
             Participant agent = conversation.getParticipants()
                     .stream()
                     .filter(participant -> participant.getPurpose().equals("agent"))
