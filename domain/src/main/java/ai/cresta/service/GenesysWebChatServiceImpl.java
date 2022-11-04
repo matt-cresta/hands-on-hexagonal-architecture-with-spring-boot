@@ -15,7 +15,7 @@ import java.text.MessageFormat;
 @Component(value="webChat")
 public class GenesysWebChatServiceImpl implements MessageServicePort {
     private final GenesysPort genesysPort;
-    
+
     @Override
     public ConversationSubscriptionResponseDto subscribeToConversation(ConversationSubscriptionRequestDto conversationSubscriptionRequestDto){
         String userId = conversationSubscriptionRequestDto.getUserId();

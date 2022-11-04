@@ -33,14 +33,14 @@ import java.util.Scanner;
 
 import ai.cresta.ports.spi.GenesysPort;
 @Service
-@AllArgsConstructor
 public class GenesysAdapter implements GenesysPort {
     private final PureCloudRegionHosts region = PureCloudRegionHosts.us_west_2;
-    private final SimpMessagingTemplate messagingTemplate;
+
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
     @Autowired
     private UserRepository userRepository;
-
-    private final SimpMessagingTemplate messageTemplate;
 
     @Override
     public ConversationSubscriptionResponseDto subscribeToConversation(String userId, String conversationId, String topic) {
@@ -107,7 +107,7 @@ public class GenesysAdapter implements GenesysPort {
 
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 
-        StompSessionHandler sessionHandler = new genesysSessionHandlerAdapter(messageTemplate, userRepository);
+        StompSessionHandler sessionHandler = new genesysSessionHandlerAdapter(messagingTemplate, userRepository);
 
         Channel channel = null;
 
