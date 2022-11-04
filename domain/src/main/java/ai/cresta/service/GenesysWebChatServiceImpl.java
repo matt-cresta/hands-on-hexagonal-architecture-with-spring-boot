@@ -1,39 +1,26 @@
 package ai.cresta.service;
 
 import ai.cresta.data.ConversationSubscriptionRequestDto;
+import ai.cresta.data.ConversationSubscriptionResponseDto;
 import ai.cresta.ports.api.MessageServicePort;
 import ai.cresta.ports.spi.GenesysPort;
-import ai.cresta.ports.spi.UserPersistencePort;
+
 import lombok.AllArgsConstructor;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Component;
 
-import com.mypurecloud.sdk.v2.ApiClient;
-import com.mypurecloud.sdk.v2.Configuration;
-import com.mypurecloud.sdk.v2.PureCloudRegionHosts;
+import java.text.MessageFormat;
 
 @AllArgsConstructor
+@Component(value="webChat")
 public class GenesysWebChatServiceImpl implements MessageServicePort {
-
-    private final SimpMessagingTemplate messageTemplate;
     private final GenesysPort genesysPort;
-
+    
     @Override
-    public void notifyFrontend(String message) {
-        messageTemplate.convertAndSend("/topic/messages", message);
-        
-    }
-
-    @Override
-    public void notifyUser(String id, String message) {
-        messageTemplate.convertAndSendToUser(id ,"/topic/private-messages", message);
-    }
-    @Override
-    public void subscribeToConversation(ConversationSubscriptionRequestDto conversationSubscriptionRequestDto){
+    public ConversationSubscriptionResponseDto subscribeToConversation(ConversationSubscriptionRequestDto conversationSubscriptionRequestDto){
         String userId = conversationSubscriptionRequestDto.getUserId();
         String conversationId = conversationSubscriptionRequestDto.getConversationId();
-
-        genesysPort.subscribeToConversation(userId, conversationId);
+        String topic = MessageFormat.format("v2.conversations.chats.{0}.messages", conversationId);
+        return genesysPort.subscribeToConversation(userId, conversationId, topic);
     }
 }
