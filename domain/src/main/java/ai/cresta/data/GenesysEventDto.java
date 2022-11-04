@@ -18,7 +18,11 @@ public class GenesysEventDto {
 
     private String version;
 
-    private class MetaData{
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public class MetaData{
         private String correlationId; 
         private String type;
     }

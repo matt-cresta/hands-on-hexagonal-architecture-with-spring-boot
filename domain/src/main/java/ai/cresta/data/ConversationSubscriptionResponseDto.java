@@ -1,5 +1,6 @@
 package ai.cresta.data;
 
+import com.mypurecloud.sdk.v2.model.Participant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,14 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDto {
-    private Long id;
-    
-    private String accessToken;
+public class ConversationSubscriptionResponseDto {
+    private Participant agent;
 
-    private String platformName;
-
-    private String userId;
-
-    private String conversationId;
+    private Participant customer;
 }
