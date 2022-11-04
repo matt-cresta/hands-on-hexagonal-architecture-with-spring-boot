@@ -56,7 +56,7 @@ public class genesysSessionHandlerAdapter implements StompSessionHandler {
                         .time(DateTime.now().toString())
                         .name(body.getName())
                         .build();
-                messageTemplate.convertAndSendToUser(user.getUserId(), "/topic/private-messages", messageDto);
+                messageTemplate.convertAndSendToUser(user.getUserId(), "/genesys/topic/private-messages", messageDto);
                 break;
         }
     }
@@ -64,7 +64,6 @@ public class genesysSessionHandlerAdapter implements StompSessionHandler {
     @Override
     public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
         // TODO Auto-generated method stub
-        
     }
 
     @Override
