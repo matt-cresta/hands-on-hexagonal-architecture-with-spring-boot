@@ -3,14 +3,19 @@ package ai.cresta.controller;
 
 import ai.cresta.data.ConversationSubscriptionRequestDto;
 import ai.cresta.data.ConversationSubscriptionResponseDto;
+import ai.cresta.data.MessageDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.messaging.handler.annotation.MessageMapping;
 
 import ai.cresta.data.UserDto;
 import ai.cresta.ports.api.MessageServicePort;
 import ai.cresta.ports.api.UserServicePort;
+
+import java.security.Principal;
 
 
 @RestController
@@ -24,15 +29,11 @@ public class GenesysChatController {
     @Autowired
     private UserServicePort userServicePort;
 
-    @PostMapping("/send-chat")
-    public void sendChat(@RequestBody final String message){
-        messageServicePort.notifyFrontend("message");
-    }
-
-    @PostMapping("/send-user-chat/{id}")
-    public void sendUserChat(@PathVariable final String id,
-                             @RequestBody final String message){
-        messageServicePort.notifyUser(id, "message");
+    @MessageMapping("/private-message")
+    @SendToUser("/topic/private-messages")
+    public ResponseEntity<MessageDto> getPrivateMessage(final MessageDto message,
+                                                        final Principal principal) throws InterruptedException {
+        return ResponseEntity.ok(message);
     }
 
     @PostMapping("/webChat/addUser")

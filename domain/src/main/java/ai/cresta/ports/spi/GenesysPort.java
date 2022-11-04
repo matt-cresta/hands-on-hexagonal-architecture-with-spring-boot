@@ -1,8 +1,8 @@
 package ai.cresta.ports.spi;
 
-import ai.cresta.data.ConversationSubscriptionRequestDto;
+import ai.cresta.data.ConversationSubscriptionResponseDto;
 
 public interface GenesysPort {
 
-    public void subscribeToConversation(String userId, String conversationId);
+    public ConversationSubscriptionResponseDto subscribeToConversation(String userId, String conversationId, String topic);
 }
