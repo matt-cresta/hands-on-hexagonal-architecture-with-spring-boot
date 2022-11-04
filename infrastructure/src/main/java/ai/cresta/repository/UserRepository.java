@@ -13,4 +13,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long>{
     @Query("select u from User u where u.userId = :userId")
     List<User> findByUserId(@Param("userId") String userId);
+
+    @Query("select u from User u where u.conversationId = :conversationId")
+    List<User> findByConversationId(@Param("conversationId") String conversationId);
 }

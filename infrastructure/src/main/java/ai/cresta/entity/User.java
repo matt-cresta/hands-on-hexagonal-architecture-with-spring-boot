@@ -28,5 +28,7 @@ public class User {
     private String accessToken;
 
     private String channelId;
+
+    private String conversationId;
     
 }
