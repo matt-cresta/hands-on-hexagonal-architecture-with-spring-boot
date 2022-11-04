@@ -1,8 +1,17 @@
 package ai.cresta.adapters;
 
 import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Map;
 
+import ai.cresta.data.GenesysEventDto;
+import ai.cresta.data.GenesysWebChatDto;
+import ai.cresta.data.MessageDto;
+import ai.cresta.entity.User;
+import ai.cresta.repository.UserRepository;
+import lombok.AllArgsConstructor;
+import org.joda.time.DateTime;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
@@ -10,12 +19,12 @@ import org.springframework.messaging.simp.stomp.StompSessionHandler;
 
 import lombok.Data;
 
+@AllArgsConstructor
 public class genesysSessionHandlerAdapter implements StompSessionHandler {
-    private Map<String, Runnable> subscriptionMap = Map.of("channel.metadata", ( ) -> System.out.println("---- Notification Heartbeat ----"));
 
-    public void addSubscriptionCallback(String topic, Runnable callback){
-        subscriptionMap.put(topic, callback);
-    }
+    private final SimpMessagingTemplate messageTemplate;
+
+    private final UserRepository userRepository;
 
     @Override
     public Type getPayloadType(StompHeaders arg0) {
@@ -25,8 +34,27 @@ public class genesysSessionHandlerAdapter implements StompSessionHandler {
 
     @Override
     public void handleFrame(StompHeaders headers, Object payload) {
-        GenericPayload genericPayload = (GenericPayload) payload;
-        Runnable callback = subscriptionMap.get(genericPayload.data.topicName);
+        GenesysEventDto genericPayload = (GenesysEventDto) payload;
+        switch(genericPayload.getMetaData().getType()){
+            case "typing-indicator":
+                break;
+            case "message":
+                GenesysWebChatDto body = (GenesysWebChatDto) genericPayload.getEventBody();
+                String conversationId = body.getConversation().getId();
+                List<User> users = userRepository.findByConversationId(conversationId);
+                User user = users.stream()
+                        .filter(userElement -> conversationId.equals(userElement.getConversationId()))
+                        .findAny()
+                        .orElse(null);
+                MessageDto messageDto = MessageDto.builder()
+                        .message(body.getBody())
+                        .purpose(body.getSender().getRole().toString())
+                        .time(DateTime.now().toString())
+                        .name(body.getName())
+                        .build();
+                messageTemplate.convertAndSendToUser(user.getUserId(), "/topic/private-messages", messageDto);
+                break;
+        }
     }
 
     @Override
@@ -47,13 +75,5 @@ public class genesysSessionHandlerAdapter implements StompSessionHandler {
         
     }
 
-    @Data
-    private class GenericPayload {
-        private PayloadData data;
-    }
-
-    private class PayloadData {
-        private String topicName;
-    }
 }
 
